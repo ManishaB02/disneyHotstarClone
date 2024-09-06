@@ -1,6 +1,6 @@
 let movies = [
     {
-      name: "falcon and the winter soldier",
+      name: "the falcon and the winter soldier",
       des:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit porro et veniam excepturi, eaque voluptatem impedit nulla laboriosam facilis ut laboriosam libero!",
       image: "images/slider 2.PNG"
@@ -143,3 +143,103 @@ let movies = [
     //   item.scrollLeft -= containerWidth + 200;
     // });
   });
+
+  const searchBox = document.querySelector(".search-box");
+  const searchResultsContainer = document.getElementById("search-results-container");
+  const searchResultsList = document.getElementById("search-results-list");
+
+  searchBox.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      const searchTerm = searchBox.value.toLowerCase().trim();
+      displaySearchResults(searchTerm);
+
+      searchBox.value = '';
+    }
+  });
+
+  function displaySearchResults(searchTerm) {
+    searchResultsList.innerHTML = ''; // Clear previous results
+
+    const filteredMovies = movies.filter(movie =>
+      movie.name.toLowerCase().includes(searchTerm)
+    );
+
+    if (filteredMovies.length > 0) {
+      filteredMovies.forEach(movie => {
+        const resultCard = document.createElement("div");
+        resultCard.className = "search-result-card";
+
+        const resultImage = document.createElement("img");
+        resultImage.src = movie.image;
+
+        const resultInfo = document.createElement("div");
+        resultInfo.className = "result-info";
+
+        const resultTitle = document.createElement("h2");
+        resultTitle.innerText = movie.name;
+
+        const resultDescription = document.createElement("p");
+        resultDescription.innerText = movie.des;
+
+        resultInfo.appendChild(resultTitle);
+        resultInfo.appendChild(resultDescription);
+        resultCard.appendChild(resultImage);
+        resultCard.appendChild(resultInfo);
+
+        searchResultsList.appendChild(resultCard);
+      });
+
+      searchResultsContainer.style.display = "block"; // Show search results container
+    } else {
+      searchResultsContainer.style.display = "none"; // Hide search results if none found
+    }
+  }
+
+  // Initially hide the search results container
+  searchResultsContainer.style.display = "none";
+
+
+  //login modal
+
+  const loginModal = document.getElementById("loginModal");
+  const loginBtn = document.getElementById("loginBtn");
+  const closeBtn = document.getElementsByClassName("close")[0];
+
+  // Open the modal
+  loginBtn.onclick = function() {
+    loginModal.style.display = "block";
+  };
+
+  // Close the modal
+  closeBtn.onclick = function() {
+    loginModal.style.display = "none";
+  };
+
+  // Close the modal when the user clicks outside of it
+  window.onclick = function(event) {
+    if (event.target == loginModal) {
+      loginModal.style.display = "none";
+    }
+  };
+
+  function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    // Simple validation (this can be enhanced)
+    if (username === "user" && password === "password") {
+      alert("Login successful!");
+      loginModal.style.display = "none";
+    } else {
+      alert("Invalid credentials!");
+    }
+  }
+
+  //subscribe
+  document.querySelector("#btn-subscribe").addEventListener("click", () => {
+    alert("You have successfully subscribed, now you can enjoy unlimited content!");
+    // window.location.href = 'subscription.html'; // Uncomment if you have a subscription page
+  });
+  
+
+  
